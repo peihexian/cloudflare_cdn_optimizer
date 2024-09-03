@@ -27,10 +27,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             _ => println!("Unknown command. Use 'install' or 'uninstall'."),
         }
     } else if env::var("RUNNING_AS_SERVICE").is_ok() {
-        // 作为Windows服务运行
         let _=service_dispatcher::start(service::SERVICE_NAME, service_main);      
     } else {
-        // 在控制台中运行
         tokio::runtime::Runtime::new()?.block_on(run_optimization_loop())?;
     }
     Ok(())
@@ -38,7 +36,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 #[cfg(not(target_os = "windows"))]
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // 在Linux上直接运行优化循环
     tokio::runtime::Runtime::new()?.block_on(run_optimization_loop())?;
     Ok(())
 }
@@ -72,7 +69,6 @@ extern "system" fn service_main(argc: u32, argv: *mut *mut u16) {
     };
 
     if let Err(e) = service::run_service(arguments) {
-        // 处理错误，例如记录到日志
         eprintln!("Service error: {:?}", e);
     }
 }

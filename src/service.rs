@@ -53,12 +53,11 @@ pub fn run_service(_arguments: Vec<OsString>) -> windows_service::Result<()> {
     let runtime = tokio::runtime::Runtime::new().unwrap();
     runtime.block_on(async {
         loop {
-            // 主服务逻辑
             if let Err(e) = run_optimization().await {
                 log::error!("Error during optimization: {:?}", e);
             }
             let seconds= config::GLOBAL_CONFIG.optimization.run_interval_seconds;
-            sleep(Duration::from_secs(seconds)).await; // 每小时运行一次
+            sleep(Duration::from_secs(seconds)).await; 
         }
     });
 
@@ -97,7 +96,7 @@ pub fn install_service() -> windows_service::Result<()> {
         executable_path: service_binary_path,
         launch_arguments: vec![],
         dependencies: vec![],
-        account_name: None, // 使用 LocalSystem 账户
+        account_name: None, 
         account_password: None,
     };
 
@@ -122,21 +121,16 @@ pub fn uninstall_service() -> windows_service::Result<()> {
 }
 
 pub async fn run_optimization() -> Result<()> {
-    // 解析CIDR列表
     let ips = parse_cidr_list(&config::GLOBAL_CONFIG.cdn.cidr_list);
 
-    //打印一下Ip地址总数
     log::debug!("Total IP addresses: {}", ips.len());
 
-    // 进行多线程ping测试
     let ping_results = ping_ips(ips, config::GLOBAL_CONFIG.optimization.ping_threads).await;
 
-    // 排序并保存前N个最快的IP
     let mut sorted_results = ping_results;
     sorted_results.sort_by_key(|&(_, duration)| duration);
     save_top_ips(&sorted_results, OUTPUT_FILE, config::GLOBAL_CONFIG.optimization.top_ips_to_save)?;
 
-    // 更新Cloudflare DNS记录
     if config::GLOBAL_CONFIG.cloudflare.update_dns {
         if let Some((fastest_ip, _)) = sorted_results.first() {
             update_dns_record(
