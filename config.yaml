@@ -1,0 +1,18 @@
+cloudflare:
+  api_token: "YOUR_API_TOKEN"
+  zone_id: "YOUR_ZONE_ID"
+  record_id: "YOUR_RECORD_ID"
+  domain: "your-domain.com"
+  update_dns: false
+
+cdn:
+  cidr_list:
+    - "162.159.140.0/22"
+    - "103.22.200.0/22"
+    # 添加更多CIDR地址...
+
+optimization:
+  debug: true                 # 是否打印调试信息
+  ping_threads: 300           # 300个线程并发ping
+  top_ips_to_save: 100        # 检测结果保存最多100个IP
+  run_interval_seconds: 3600  # 检测间隔1小时

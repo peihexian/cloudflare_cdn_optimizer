@@ -1,0 +1,43 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=cloudflare_cdn_optimizer",
+                    "--package=cloudflare_cdn_optimizer"
+                ],
+                "filter": {
+                    "name": "cloudflare_cdn_optimizer",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Release",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--release",
+                    "--bin=cloudflare_cdn_optimizer",
+                    "--package=cloudflare_cdn_optimizer"
+                ],
+                "filter": {
+                    "name": "cloudflare_cdn_optimizer",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+
+}

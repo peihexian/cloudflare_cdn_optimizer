@@ -1,0 +1,13 @@
+[Unit]
+Description=Cloudflare CDN Optimizer
+After=network.target
+
+[Service]
+ExecStart=/path/to/cloudflare_cdn_optimizer
+Restart=always
+User=nobody
+Group=nogroup
+Environment=RUST_LOG=info
+
+[Install]
+WantedBy=multi-user.target
