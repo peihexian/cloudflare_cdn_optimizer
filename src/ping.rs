@@ -21,7 +21,8 @@ pub async fn ping(ip: IpAddr, timeout_duration: Duration) -> Option<Duration> {
     let timeelapsed = start.elapsed();
 
     if config::GLOBAL_CONFIG.optimization.debug {
-        eprintln!("ping ip {} result: {:?} ,take time {}ms", ip, result.as_ref().map(|r| r.is_ok()), timeelapsed.as_millis());
+        log::info!("ping ip {} result: {:?} ,take time {}ms", ip, result.as_ref().map(|r| r.is_ok()), timeelapsed.as_millis());
+        //eprintln!("ping ip {} result: {:?} ,take time {}ms", ip, result.as_ref().map(|r| r.is_ok()), timeelapsed.as_millis());
     }
 
     match result {
