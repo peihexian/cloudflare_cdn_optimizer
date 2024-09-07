@@ -9,7 +9,7 @@ pub fn save_top_ips(ips: &[(IpAddr, Duration)], filename: &str,top: usize) -> st
     let mut writer = BufWriter::new(file);
 
     for (ip, duration) in ips.iter().take(top) {
-        writeln!(writer, "{},{}", ip, duration.as_millis())?;
+        writeln!(writer, "{},{}ms", ip, duration.as_millis())?;
     }
 
     Ok(())
